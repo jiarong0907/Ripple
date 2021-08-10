@@ -1,0 +1,198 @@
+{
+    "sampling_per": 0.01,
+    "tcs": {
+        "tc219": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw27",
+                        "sw38",
+                        "sw47",
+                        "sw45",
+                        "sw34",
+                        "sw29",
+                        "sw13",
+                        "sw14",
+                        "sw15",
+                        "sw16",
+                        "sw21",
+                        "sw11",
+                        "sw25",
+                        "sw24"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 13
+                }
+            },
+            "volume": 170082,
+            "dst": "sw24",
+            "src": "sw27",
+            "npath": 1
+        },
+        "tc599": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw36",
+                        "sw31",
+                        "sw33",
+                        "sw8",
+                        "sw5",
+                        "sw4",
+                        "sw2",
+                        "sw46",
+                        "sw45",
+                        "sw44",
+                        "sw43",
+                        "sw29",
+                        "sw34"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 12
+                }
+            },
+            "volume": 54,
+            "dst": "sw34",
+            "src": "sw36",
+            "npath": 1
+        },
+        "tc299": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw37",
+                        "sw36",
+                        "sw35",
+                        "sw40",
+                        "sw41",
+                        "sw42",
+                        "sw34",
+                        "sw29",
+                        "sw13",
+                        "sw14",
+                        "sw16",
+                        "sw21",
+                        "sw25",
+                        "sw24"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 13
+                }
+            },
+            "volume": 88986,
+            "dst": "sw24",
+            "src": "sw37",
+            "npath": 1
+        },
+        "tc447": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw37",
+                        "sw31",
+                        "sw30",
+                        "sw33",
+                        "sw8",
+                        "sw5",
+                        "sw4",
+                        "sw2",
+                        "sw46",
+                        "sw45",
+                        "sw44",
+                        "sw43"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 11
+                }
+            },
+            "volume": 33966,
+            "dst": "sw43",
+            "src": "sw37",
+            "npath": 1
+        },
+        "tc429": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw35",
+                        "sw40",
+                        "sw41",
+                        "sw42",
+                        "sw34",
+                        "sw29",
+                        "sw13",
+                        "sw14",
+                        "sw15",
+                        "sw16",
+                        "sw23",
+                        "sw20",
+                        "sw22",
+                        "sw24"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 13
+                }
+            },
+            "volume": 44340,
+            "dst": "sw24",
+            "src": "sw35",
+            "npath": 1
+        },
+        "tc370": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw35",
+                        "sw31",
+                        "sw33",
+                        "sw8",
+                        "sw27",
+                        "sw38",
+                        "sw47",
+                        "sw45",
+                        "sw44",
+                        "sw43",
+                        "sw29",
+                        "sw34",
+                        "sw42"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 12
+                }
+            },
+            "volume": 54198,
+            "dst": "sw42",
+            "src": "sw35",
+            "npath": 1
+        },
+        "tc190": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw4",
+                        "sw2",
+                        "sw46",
+                        "sw45",
+                        "sw44",
+                        "sw43",
+                        "sw29",
+                        "sw13",
+                        "sw14",
+                        "sw16",
+                        "sw21",
+                        "sw11",
+                        "sw25",
+                        "sw24"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 13
+                }
+            },
+            "volume": 215100,
+            "dst": "sw24",
+            "src": "sw4",
+            "npath": 1
+        }
+    },
+    "ntc": 7
+}

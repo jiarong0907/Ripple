@@ -1,0 +1,5 @@
+mal_coremelt = panorama (100)
+.filter(victimLks.size > 1)
+.filter(link IN victimLks)
+.reduce ([sip, dip, sport, dport], [flowsz], [pktlen])
+.filter(flowsz > 11000)

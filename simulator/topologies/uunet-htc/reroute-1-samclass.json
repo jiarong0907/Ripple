@@ -1,0 +1,48 @@
+{
+    "sampling_per": 0.01,
+    "tcs": {
+        "tc728": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw44",
+                        "sw43",
+                        "sw25",
+                        "sw33",
+                        "sw13",
+                        "sw14"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 5
+                }
+            },
+            "volume": 7920,
+            "dst": "sw14",
+            "src": "sw44",
+            "npath": 1
+        },
+        "tc748": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw29",
+                        "sw41",
+                        "sw42",
+                        "sw43",
+                        "sw13",
+                        "sw14",
+                        "sw18",
+                        "sw15"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 7
+                }
+            },
+            "volume": 4776,
+            "dst": "sw15",
+            "src": "sw29",
+            "npath": 1
+        }
+    },
+    "ntc": 2
+}

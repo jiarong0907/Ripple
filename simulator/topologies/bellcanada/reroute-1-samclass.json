@@ -1,0 +1,148 @@
+{
+    "sampling_per": 0.01,
+    "tcs": {
+        "tc1126": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw9",
+                        "sw8",
+                        "sw27",
+                        "sw38",
+                        "sw47",
+                        "sw45",
+                        "sw44",
+                        "sw43",
+                        "sw29"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 8
+                }
+            },
+            "volume": 114,
+            "dst": "sw29",
+            "src": "sw9",
+            "npath": 1
+        },
+        "tc1336": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw39",
+                        "sw2",
+                        "sw46",
+                        "sw45",
+                        "sw34",
+                        "sw42"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 5
+                }
+            },
+            "volume": 6,
+            "dst": "sw42",
+            "src": "sw39",
+            "npath": 1
+        },
+        "tc882": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw6",
+                        "sw1",
+                        "sw2",
+                        "sw4",
+                        "sw33",
+                        "sw31",
+                        "sw37",
+                        "sw36",
+                        "sw35",
+                        "sw40",
+                        "sw12",
+                        "sw28",
+                        "sw29",
+                        "sw34"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 13
+                }
+            },
+            "volume": 6984,
+            "dst": "sw34",
+            "src": "sw6",
+            "npath": 1
+        },
+        "tc928": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw45",
+                        "sw34"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 1
+                }
+            },
+            "volume": 3222,
+            "dst": "sw34",
+            "src": "sw45",
+            "npath": 1
+        },
+        "tc799": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw44",
+                        "sw43",
+                        "sw29",
+                        "sw34",
+                        "sw45",
+                        "sw47",
+                        "sw38",
+                        "sw27",
+                        "sw33",
+                        "sw30",
+                        "sw31",
+                        "sw35",
+                        "sw40",
+                        "sw41"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 13
+                }
+            },
+            "volume": 28188,
+            "dst": "sw41",
+            "src": "sw44",
+            "npath": 1
+        },
+        "tc889": {
+            "paths": {
+                "path0": {
+                    "hops": [
+                        "sw9",
+                        "sw8",
+                        "sw33",
+                        "sw31",
+                        "sw36",
+                        "sw35",
+                        "sw40",
+                        "sw12",
+                        "sw14",
+                        "sw13",
+                        "sw29",
+                        "sw34",
+                        "sw42"
+                    ],
+                    "flowFraction": 1.0,
+                    "nhop": 12
+                }
+            },
+            "volume": 6210,
+            "dst": "sw42",
+            "src": "sw9",
+            "npath": 1
+        }
+    },
+    "ntc": 6
+}
