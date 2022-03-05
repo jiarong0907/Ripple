@@ -103,7 +103,8 @@ public:
 	string compile(string indent) {
 		if (this->is_start) {
 			string code = indent + "state start {\n";
-			code       += indent + "    transition parse_ppp;\n";
+			// code       += indent + "    transition parse_ppp;\n";
+			code       += indent + "    transition parse_ethernet;\n";
 			code       += indent + "}\n";
 			return code;
 		}
@@ -157,10 +158,15 @@ public:
 		ParseState start_state("start", true);
 		this->add_state(start_state);
 
-		Transition ppp_trans("ppp_trans", "hdr.ppp.pppType", true);
-		ppp_trans.add_rule(TransitionRule("ppp_trans1", "TYPE_IPV4", "parse_ipv4"));
-		ParseState ppp_state("ppp", ppp_trans);
-		this->add_state(ppp_state);
+		// Transition ppp_trans("ppp_trans", "hdr.ppp.pppType", true);
+		// ppp_trans.add_rule(TransitionRule("ppp_trans1", "TYPE_IPV4", "parse_ipv4"));
+		// ParseState ppp_state("ppp", ppp_trans);
+		// this->add_state(ppp_state);
+
+		Transition ether_trans("ether_trans", "hdr.ethernet.etherType", true);
+		ether_trans.add_rule(TransitionRule("ether_trans1", "TYPE_IPV4", "parse_ipv4"));
+		ParseState ether_state("ethernet", ether_trans);
+		this->add_state(ether_state);
 
 		Transition ipv4_trans("ipv4_trans", "hdr.ipv4.protocol", true);
 		ipv4_trans.add_rule(TransitionRule("ipv4_trans1", "TCP_PROTOCOL", "parse_tcp"));

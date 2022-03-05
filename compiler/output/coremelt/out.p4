@@ -1,9 +1,10 @@
 /* -*- P4_16 -*- */
-#include <pronet1.p4>
+#include <core.p4>
+#include <v1model.p4>
 #include "../macro.p4"
 #define DROP(); mark_to_drop();
 
-const bit<16> TYPE_IPV4 = 33;
+const bit<16> TYPE_IPV4 = 2048;
 const bit<8> TCP_PROTOCOL = 6;
 const bit<8> ICMP_PROTOCOL = 1;
 const bit<8> SYNC_PROTOCOL = 252;
@@ -18,8 +19,10 @@ const bit<32> SUSPICIOUS_SIZE = 65535;
 *********************** H E A D E R S  ***********************************
 *************************************************************************/
 
-header ppp_t {
-    bit<16> pppType;
+header ethernet_t {
+    bit<48> dstAddr;
+    bit<48> srcAddr;
+    bit<16> etherType;
 }
 
 header ipv4_t {
@@ -61,7 +64,7 @@ header sync_t {
 
 
 struct headers {
-    ppp_t 	ppp;
+    ethernet_t 	ethernet;
     ipv4_t 	ipv4;
     tcp_t 	tcp;
     sync_t 	sync;
@@ -103,12 +106,12 @@ parser MyParser(packet_in packet,
                 inout standard_metadata_t standard_metadata) {
 
     state start {
-        transition parse_ppp;
+        transition parse_ethernet;
     }
 
-    state parse_ppp {
-        packet.extract(hdr.ppp);
-        transition select(hdr.ppp.pppType) {
+    state parse_ethernet {
+        packet.extract(hdr.ethernet);
+        transition select(hdr.ethernet.etherType) {
             TYPE_IPV4 : parse_ipv4;
             default: accept;
         }
@@ -440,7 +443,7 @@ control MyComputeChecksum(inout headers hdr, inout metadata meta) {
 
 control MyDeparser(packet_out packet, in headers hdr) {
    apply {
-		packet.emit(hdr.ppp);
+		packet.emit(hdr.ethernet);
 		packet.emit(hdr.ipv4);
 		packet.emit(hdr.tcp);
 		packet.emit(hdr.sync);

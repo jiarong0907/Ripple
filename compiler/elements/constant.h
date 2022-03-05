@@ -59,7 +59,8 @@ public:
 	}
 
 	void init(bool has_retoute) {
-		this->add_const(Constant("TYPE_IPV4", 16, 0x0021));
+		// this->add_const(Constant("TYPE_IPV4", 16, 0x0021));
+		this->add_const(Constant("TYPE_IPV4", 16, 0x0800));
 		this->add_const(Constant("TCP_PROTOCOL", 8, 6));
 		this->add_const(Constant("ICMP_PROTOCOL", 8, 1));
 		if (has_retoute){

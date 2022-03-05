@@ -30,7 +30,8 @@ public:
 	}
 
 	void init (bool has_reroute) {
-		this->add_header("ppp");
+		// this->add_header("ppp");
+		this->add_header("ethernet");
 		this->add_header("ipv4");
 		this->add_header("tcp");
 		if (has_reroute)

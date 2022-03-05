@@ -131,9 +131,17 @@ public:
 	}
 
 	void init (bool has_reroute) {
-		Header ppp("ppp");
-		ppp.add_field(HeaderField("pppType", 16));
-		this->add_header(ppp);
+		// This is for ns3 simulation
+		// Header ppp("ppp");
+		// ppp.add_field(HeaderField("pppType", 16));
+		// this->add_header(ppp);
+
+		// This is for bmv2
+		Header ether("ethernet");
+		ether.add_field(HeaderField("dstAddr", 48));
+		ether.add_field(HeaderField("srcAddr", 48));
+		ether.add_field(HeaderField("etherType", 16));
+		this->add_header(ether);
 
 		Header ipv4("ipv4");
 		ipv4.add_field(HeaderField("version", 4));
