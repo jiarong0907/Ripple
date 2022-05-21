@@ -35,7 +35,7 @@ public:
 		//construct the key items:
 		ans += "key: ";
 		for (string key : this->key)
-			ans += key + ", ";
+			ans += key + ",";
 
 		ans.pop_back();
 		ans += "\n";

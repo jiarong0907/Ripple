@@ -77,80 +77,60 @@ void Policy::parse() {
 	grammar_check();
 }
 
-Panorama* Policy::parse_panorama(string cur_line)
+Panorama* Policy::parse_panorama(string line)
 {
-	//key params for a detection policy: global state global_var, and period w;
+	regex reg_pano("(\\w+)\\s*=\\s*panorama\\s*\\((\\d+)\\)");
+	if (!std::regex_match(line.begin(), line.end(), reg_pano)) {
+		throw_error("Invalid Panorama statement");
+	}
+
 	smatch match;
-	//result panorama object
 	Panorama* pano = new Panorama();
 
-	//extract global_var
-	regex before_eq("(\\w+)\\s*=\\s*panorama.*");
-	if (regex_search(cur_line, match, before_eq)) {
+	if (regex_search(line, match, reg_pano)) {
 		this->global_var = match.str(1);
 		pano->set_return(match.str(1));
+		this->window = stoi(match.str(2));
+		pano->set_window(this->window);
 	} else {
-		throw_error("Invalid panorama statement: Could not find the global variable");
+		throw_error("Invalid Panorama statement");
 	}
 
-	//extract sliding window
-	regex sliding_window("panorama\\s*\\((\\w+)\\)");
-	if (regex_search(cur_line, match, sliding_window)) {
-		this->window = stoi( match.str(1) );
-		pano->set_window(stoi(match.str(1)));
-	} else {
-		throw_error("Invalid panorama statement: Could not find the window");
-	}
-
-	//finished parsing the map statement
 	pano->print();
 	return pano;
 }
 
 
 //extracts a reduce policy from a given line
-Reduce* Policy::parse_reduce(string cur_line) {
+Reduce* Policy::parse_reduce(string line) {
+	// .reduce ([sip], [egflowsz], [pktlen])
+	regex reg_reduce("\\.reduce\\s*\\(\\[((\\w+(,\\s*\\w+)*|\\*))\\],\\s*\\[(\\w+)\\],\\s\\[(\\w+)\\]\\)");
+	if (!std::regex_match(line.begin(), line.end(), reg_reduce)) {
+		throw_error("Invalid Reduce statement");
+	}
+
+	smatch match;
 	Reduce *reduce = new Reduce();
-
-	//parameters substring
-	string params = extract_params(cur_line);
-
-	//key Items extraction
-	vector<string> keys;
-	int end_idx = extract_vars_sqaure(params, 0, &keys);
-	for (string item : keys)
-		reduce->add_key(trim(item));
-
-	//extract result_items
-	vector<string> results;
-	end_idx = extract_vars_sqaure(params, end_idx, &results);
-	if (results.size()!=1)
-		throw_error("The result size of Reduce must be 1!\n");
-	reduce->set_result(results[0]);
-
-	//extract values_items
-	vector<string> values;
-	end_idx = extract_vars_sqaure(params, end_idx, &values);
-	if (values.size()!=1)
-		throw_error("The result size of Reduce must be 1!\n");
-	reduce->set_value(values[0]);
+	if (regex_search(line, match, reg_reduce)) {
+		vector<string> keys = split(match.str(1), ",");
+		for (string item: keys)
+			reduce->add_key(trim(item));
+		reduce->set_result(match.str(4));
+		reduce->set_value(match.str(5));
+	} else {
+		throw_error("Invalid Reduce statement");
+	}
 
 	reduce->print();
-
-	// grammer check
-	if (keys[0]=="*" && keys.size()!=1)
-		throw_error("When the key is *, the key size must be 1!\n");
-	if (keys[0]=="*" && keys.size()==1 && reduce->get_value()!="1")
-		throw_error("When the key is *, the value must be 1!\n");
 	return reduce;
 }
 
 //extracts a filter policy from a given line
-Filter* Policy::parse_filter(string cur_line) {
+Filter* Policy::parse_filter(string line) {
 	Filter *filter = new Filter();
 
 	// conditionss substring
-	string params = extract_params(cur_line);
+	string params = extract_params(line);
 	string condition = params.substr(1, params.size()-1);
 	extract_conds(condition, filter);
 	filter->print();
@@ -171,17 +151,22 @@ Filter* Policy::parse_filter(string cur_line) {
 }
 
 //extracts a distinct policy from a given line
-Distinct* Policy::parse_distinct (string cur_line) {
+Distinct* Policy::parse_distinct (string line) {
+	regex reg_distinct("\\.distinct\\s*\\(\\[(\\w+(,\\s*\\w+)*)\\]\\)");
+	if (!std::regex_match(line.begin(), line.end(), reg_distinct)) {
+		throw_error("Invalid Distinct statement");
+	}
+
+	smatch match;
 	Distinct *distinct = new Distinct();
-
-	//parameters substring
-	string params = extract_params(cur_line);
-
-	//key Items extraction
-	vector<string> keys;
-	int end_idx = extract_vars_sqaure(params, 0, &keys);
-	for (string item : keys)
-		distinct->add_key(trim(item));
+	if (regex_search(line, match, reg_distinct)) {
+		cout<<match.str(1)<<endl;
+		vector<string> keys = split(match.str(1), ",");
+		for (string item: keys)
+			distinct->add_key(trim(item));
+	} else {
+		throw_error("Invalid Distinct statement");
+	}
 
 	distinct->print();
 	return distinct;
@@ -225,32 +210,23 @@ When* Policy::parse_when(string cur_line) {
 
 
 //extracts a map policy from a given line
-Map* Policy::parse_map(string cur_line) {
+Map* Policy::parse_map(string line) {
+	regex reg_map("\\.map\\s*\\(\\[(\\w+(,\\s*\\w+)*)\\],\\s*\\[(\\w+)\\],\\sf=(\\w+)\\)");
+	if (!std::regex_match(line.begin(), line.end(), reg_map)) {
+		throw_error("Invalid Map statement");
+	}
 
-	Map *map = new Map();
-	//parameters substring
-	string params = extract_params(cur_line);
-
-	//From Items extraction
-	vector<string> from_items;
-	int end_idx = extract_vars_sqaure(params, 0, &from_items);
-	for (auto item : from_items)
-		map->add_from(trim(item));
-
-	//extract to_items, these are outputs of map_func
-	vector<string> to_items;
-	end_idx = extract_vars_sqaure(params, end_idx, &to_items);
-	if (to_items.size()!=1)
-		throw_error("The to size of Map must be 1!\n");
-	map->set_to(to_items[0]);
-
-	//extract the map function, a function that executes on the to_items
-	regex map_func("f=(\\w+)");
 	smatch match;
-	if (regex_search(params, match, map_func))
-		map->set_func(match.str(1));
-	else
-		throw_error("Invalid map statement: Could not find the map func.");
+	Map *map = new Map();
+	if (regex_search(line, match, reg_map)) {
+		vector<string> keys = split(match.str(1), ",");
+		for (string item: keys)
+			map->add_from(trim(item));
+		map->set_to(match.str(3));
+		map->set_func(match.str(4));
+	} else {
+		throw_error("Invalid Map statement");
+	}
 
 	map->print();
 	// grammar check
@@ -267,27 +243,23 @@ Map* Policy::parse_map(string cur_line) {
 }
 
 //extracts a zip policy from a given line
-Zip* Policy::parse_zip(string cur_line) {
+Zip* Policy::parse_zip(string line) {
+	regex reg_zip("\\.zip\\s*\\(\\[(\\w+(,\\s*\\w+)*)\\],\\s*\\[(\\w+)\\],\\s*\\[(\\w+)\\]\\)");
+	if (!std::regex_match(line.begin(), line.end(), reg_zip)) {
+		throw_error("Invalid Zip statement");
+	}
+
+	smatch match;
 	Zip * zip = new Zip();
-
-	string params = extract_params(cur_line);
-
-	vector<string> keys;
-	int end_idx = extract_vars_sqaure(params, 0, &keys);
-	for (string item : keys)
-		zip->add_key(trim(item));
-
-	vector<string> input1;
-	end_idx = extract_vars_sqaure(params, end_idx, &input1);
-	if (input1.size()!=1)
-		throw_error("The input size of Zip must be 1!\n");
-	zip->set_input1(input1[0]);
-
-	vector<string> input2;
-	end_idx = extract_vars_sqaure(params, end_idx, &input2);
-	if (input2.size()!=1)
-		throw_error("The input size of Zip must be 1!\n");
-	zip->set_input2(input2[0]);
+	if (regex_search(line, match, reg_zip)) {
+		vector<string> keys = split(match.str(1), ",");
+		for (string item: keys)
+			zip->add_key(trim(item));
+		zip->set_input1(match.str(3));
+		zip->set_input2(match.str(4));
+	} else {
+		throw_error("Invalid Zip statement");
+	}
 
 	zip->print();
 	return zip;

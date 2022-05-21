@@ -39,12 +39,7 @@ public:
 		ans += "]\n";
 
 		//construct the val items:
-		ans += "to: [";
-		for (int i = 0; i < this->to.size(); i ++)
-			ans += this->to[i] + ",";
-		ans.pop_back();
-		ans += "]\n";
-
+		ans += "to: "+this->to+"\n";
 		//construct the func:
 		ans += "func: " + this->func + "\n";
 		return ans;

@@ -107,18 +107,6 @@ int extract_conds_sqaure(string params_string, int start_idx, vector<string>* co
 
 
 /**
- * extract the '||' connected condtions from the params_string.
- */
-int extract_vars_sqaure(string params_string, int start_idx, vector<string>* variables) {
-	string items_str;
-	int j = extract_substr_sqaure(params_string, start_idx, &items_str);
-	//extract variables from this [] enclosed region
-	string delim(",");
-	*variables = split(items_str, delim);
-	return j;
-}
-
-/**
  * Find all the substrings that match the pattern in the given str.
  * Stores matches in rets vector.
  * Return the number of elements in the reslts vector.
